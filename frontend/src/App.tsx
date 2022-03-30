@@ -1,3 +1,5 @@
+import { HelloWorld } from "@laskugeneraattori/common"
+
 const App = () => {
   return (
     <div>
