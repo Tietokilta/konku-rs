@@ -1,7 +1,11 @@
 module.exports = {
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    project: ["frontend/tsconfig.json", "common/tsconfig.json"],
+    project: [
+      "frontend/tsconfig.json",
+      "common/tsconfig.json",
+      "server/tsconfig.json",
+    ],
   },
   extends: [
     "airbnb",
