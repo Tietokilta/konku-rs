@@ -1,5 +1,10 @@
 import React from "react"
 import ReactDOM from "react-dom"
+
+import "@fontsource/roboto"
+import "@fontsource/source-code-pro"
+import "./index.css"
+
 import App from "./App"
 
 ReactDOM.render(
