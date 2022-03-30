@@ -1,9 +1,9 @@
-import { HelloWorld } from "@laskugeneraattori/common"
+import { InvoicePreview } from "@laskugeneraattori/common"
 
 const App = () => {
   return (
-    <div className="text-tikorange">
-      <HelloWorld />
+    <div>
+      <InvoicePreview />
       Hello world!
     </div>
   )
