@@ -1,10 +1,13 @@
 import { Button } from "./input/Button"
+import { Checkbox } from "./input/Checkbox"
 import { TextField } from "./input/TextField"
 
 const App = () => {
   return (
-    <main className="m-4">
-      <h1 className="font-mono font-bold text-2xl mb-4">Laskugeneraattori</h1>
+    <div className="m-4">
+      <header>
+        <h1 className="font-mono font-bold text-2xl mb-4">Laskugeneraattori</h1>
+      </header>
       {/* <InvoicePreview /> */}
       <form>
         <fieldset className="border border-tikgray p-4">
@@ -31,11 +34,14 @@ const App = () => {
             <div className="col-span-2">
               <TextField type="email" label="Sähköpostiosoite" name="email" />
             </div>
+            <div className="col-span-2 md:col-span-4">
+              <Checkbox label="Tallenna perustiedot seuraavaa kertaa varten" />
+            </div>
           </div>
         </fieldset>
         <Button>Lähetä</Button>
       </form>
-    </main>
+    </div>
   )
 }
 
