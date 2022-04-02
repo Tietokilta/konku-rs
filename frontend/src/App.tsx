@@ -45,6 +45,9 @@ const App = () => {
               <TextField type="email" label={t("email")} name="email" />
             </div>
             <div className="col-span-2 md:col-span-4">
+              <TextField type="text" label={t("bankAccount")} name="iban" />
+            </div>
+            <div className="col-span-2 md:col-span-4">
               <Checkbox label={t("rememberBasicInformation")} />
             </div>
           </div>
