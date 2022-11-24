@@ -2,7 +2,8 @@ import i18n, { Resource } from "i18next"
 import LanguageDetector from "i18next-browser-languagedetector"
 import { initReactI18next } from "react-i18next"
 
-const resources: Resource = {
+export const defaultNS = "translation"
+export const resources: Resource = {
   en: {
     translation: {
       basicInformation: "Basic information",
@@ -33,16 +34,21 @@ const resources: Resource = {
       submit: "Lähetä",
     },
   },
-}
+} as const
 
+// Not relevant here, and top-level await is not even allowed in this scenario.
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources,
     fallbackLng: "en",
+    fallbackNS: defaultNS,
+    defaultNS,
 
     load: "languageOnly",
+    returnNull: false,
 
     interpolation: {
       escapeValue: false,

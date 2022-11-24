@@ -1,20 +1,17 @@
 module.exports = {
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    project: [
-      "frontend/tsconfig.json",
-      "common/tsconfig.json",
-      "server/tsconfig.json",
-    ],
+    project: ["tsconfig.json"],
   },
   extends: [
     "airbnb",
+    "airbnb/hooks",
     "airbnb-typescript",
     "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/strict",
     "plugin:prettier/recommended",
   ],
   env: {
-    node: true,
     browser: true,
   },
   rules: {
@@ -25,5 +22,18 @@ module.exports = {
 
     "import/prefer-default-export": "off",
     "react/function-component-definition": "off",
+
+    "import/order": [
+      "error",
+      {
+        groups: [
+          ["builtin", "type", "external"],
+          ["internal", "parent", "sibling", "index"],
+          "object",
+        ],
+        alphabetize: { order: "asc", caseInsensitive: true },
+        "newlines-between": "always",
+      },
+    ],
   },
 }

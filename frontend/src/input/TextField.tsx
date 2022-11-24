@@ -19,7 +19,7 @@ export const TextField: React.FC<Props> = (props) => {
       )}
       <input
         id={id}
-        type={type || "text"}
+        type={type ?? "text"}
         className={classNames(
           className,
           "border rounded border-tikblack px-2 py-1 w-full"
