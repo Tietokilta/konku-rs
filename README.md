@@ -1,28 +1,6 @@
 # Laskugeneraattori v2
 
-## Requirements
+Monorepo for laskugeneraattori frontend & backend. For individual components, see their respective README.md files:
 
-- NodeJS (version defined in `.nvmrc`)
-  - if using nvm run `nvm use` to install correct version
-
-## Development
-
-### Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-## Troubleshooting
-
-### ESLint issues with VSCode
-
-It might be necessary to tell VSCode the working directories as this repository uses monorepo approach. Put the following in `.vscode/settings.json`:
-
-```json
-{
-  "eslint.workingDirectories": ["frontend", "backend"]
-}
-```
+- [Frontend](frontend/README.md)
+- [Backend](backend/README.md)
