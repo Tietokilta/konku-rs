@@ -5,6 +5,7 @@ use axum::{
     routing::post,
     Router,
 };
+use dotenvy::dotenv;
 use hyper::StatusCode;
 use serde::Deserialize;
 use std::net::SocketAddr;
@@ -29,6 +30,11 @@ async fn main() {
         )
         .with(tracing_subscriber::fmt::layer())
         .init();
+
+    // Read environment variables from .env file
+    if let Err(error) = dotenv() {
+        tracing::warn!("Failed to load variables from .env file: \"{}\". Make sure that environment variables are set some other way.", error)
+    }
 
     let app = Router::new()
         .route("/", post(handler))
