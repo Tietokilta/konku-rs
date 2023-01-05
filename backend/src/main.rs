@@ -4,6 +4,7 @@ use axum::{
     Router,
 };
 use hyper::StatusCode;
+use serde::Deserialize;
 use std::net::SocketAddr;
 use tower_http::{limit::RequestBodyLimitLayer, trace::TraceLayer};
 use tracing_subscriber::{
@@ -44,7 +45,14 @@ async fn main() {
         .unwrap();
 }
 
+#[derive(Deserialize, Debug)]
+struct RequestBody {
+    hello: String,
+}
+
 async fn handler(mut multipart: Multipart) -> Result<String, (StatusCode, String)> {
+    let mut body: RequestBody;
+
     while let Some(field) = multipart
         .next_field()
         .await
@@ -63,10 +71,17 @@ async fn handler(mut multipart: Multipart) -> Result<String, (StatusCode, String
         let data = field
             .bytes()
             .await
+            .map(|bytes| bytes.to_vec())
             .map_err(|err| (StatusCode::BAD_REQUEST, err.to_string()))?;
 
         match field_name.as_str() {
-            "data" => {}
+            "data" => {
+                // data should contain the JSON body, let's parse it
+                body = serde_json::from_slice(data.as_slice())
+                    .map_err(|err| (StatusCode::BAD_REQUEST, err.to_string()))?;
+
+                tracing::info!("Got hello content \"{}\"", body.hello)
+            }
             "attachments" => {
                 tracing::info!("Attachment content-type {}", content_type)
             }
@@ -77,5 +92,6 @@ async fn handler(mut multipart: Multipart) -> Result<String, (StatusCode, String
             ))?,
         };
     }
+
     Ok("Success".to_string())
 }
