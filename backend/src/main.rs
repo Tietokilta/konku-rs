@@ -4,7 +4,6 @@ use axum::{
     Router,
 };
 use hyper::StatusCode;
-use mime::Mime;
 use std::net::SocketAddr;
 use tower_http::{limit::RequestBodyLimitLayer, trace::TraceLayer};
 use tracing_subscriber::{
@@ -51,18 +50,15 @@ async fn handler(mut multipart: Multipart) -> Result<String, (StatusCode, String
         .await
         .map_err(|err| (StatusCode::BAD_REQUEST, err.to_string()))?
     {
-        let field_name = field
-            .name()
-            .map(|f| f.to_string())
-            .ok_or((StatusCode::BAD_REQUEST, "Malformed field name".to_string()))?;
+        let field_name = field.name().map(|s| s.to_owned()).ok_or((
+            StatusCode::BAD_REQUEST,
+            String::from("Malformed field name"),
+        ))?;
 
         let content_type = field
             .content_type()
-            .map(|f| f.parse::<Mime>().unwrap_or(mime::APPLICATION_OCTET_STREAM))
-            .ok_or((
-                StatusCode::BAD_REQUEST,
-                "Malformed content type".to_string(),
-            ))?;
+            .map(|s| s.to_owned())
+            .unwrap_or_else(|| String::from("application/octet-stream"));
 
         let data = field
             .bytes()
@@ -70,10 +66,16 @@ async fn handler(mut multipart: Multipart) -> Result<String, (StatusCode, String
             .map_err(|err| (StatusCode::BAD_REQUEST, err.to_string()))?;
 
         match field_name.as_str() {
-            "data" => Ok("Success".to_string()),
-            "attachments" => Ok("Success".to_string()),
-            _ => Err((StatusCode::BAD_REQUEST, "Unknown field name".to_string())),
-        }?;
+            "data" => {}
+            "attachments" => {
+                tracing::info!("Attachment content-type {}", content_type)
+            }
+            // For other fields, raise unknown field error
+            field => Err((
+                StatusCode::BAD_REQUEST,
+                format!("Unknown field \"{}\"", field),
+            ))?,
+        };
     }
     Ok("Success".to_string())
 }
