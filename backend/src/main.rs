@@ -1,3 +1,5 @@
+mod multipart_utils;
+
 use axum::{
     extract::{DefaultBodyLimit, Multipart},
     routing::post,
@@ -50,48 +52,40 @@ struct RequestBody {
     hello: String,
 }
 
-async fn handler(mut multipart: Multipart) -> Result<String, (StatusCode, String)> {
-    let mut body: RequestBody;
-
-    while let Some(field) = multipart
-        .next_field()
+async fn handler(multipart: Multipart) -> Result<String, (StatusCode, String)> {
+    let multipart_fields = multipart_utils::consume_multipart_body(multipart)
         .await
-        .map_err(|err| (StatusCode::BAD_REQUEST, err.to_string()))?
-    {
-        let field_name = field.name().map(|s| s.to_owned()).ok_or((
-            StatusCode::BAD_REQUEST,
-            String::from("Malformed field name"),
-        ))?;
+        .map_err(|err| (StatusCode::BAD_REQUEST, err.to_string()))?;
 
-        let content_type = field
-            .content_type()
-            .map(|s| s.to_owned())
-            .unwrap_or_else(|| String::from("application/octet-stream"));
+    let mut json_body: RequestBody;
 
-        let data = field
-            .bytes()
-            .await
-            .map(|bytes| bytes.to_vec())
-            .map_err(|err| (StatusCode::BAD_REQUEST, err.to_string()))?;
-
-        match field_name.as_str() {
+    for field in multipart_fields.iter() {
+        match field.name.as_str() {
             "data" => {
-                // data should contain the JSON body, let's parse it
-                body = serde_json::from_slice(data.as_slice())
-                    .map_err(|err| (StatusCode::BAD_REQUEST, err.to_string()))?;
+                // data should contain the JSON body, let's parse it and throw error forward if
+                // data is incorrectly formatted.
+                json_body = serde_json::from_slice(field.data.as_slice()).map_err(|err| {
+                    (
+                        StatusCode::BAD_REQUEST,
+                        format!(
+                            "In field \"{}\": JSON deserialization failed: {}",
+                            field.name, err
+                        ),
+                    )
+                })?;
 
-                tracing::info!("Got hello content \"{}\"", body.hello)
+                tracing::info!("Got hello content \"{}\"", json_body.hello)
             }
             "attachments" => {
-                tracing::info!("Attachment content-type {}", content_type)
+                tracing::info!("Attachment content-type {}", field.content_type)
             }
             // For other fields, raise unknown field error
             field => Err((
                 StatusCode::BAD_REQUEST,
                 format!("Unknown field \"{}\"", field),
             ))?,
-        };
+        }
     }
 
-    Ok("Success".to_string())
+    Ok(String::from("Success"))
 }
