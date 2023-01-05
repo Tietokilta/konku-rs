@@ -13,6 +13,10 @@ cargo run
 
 # Build the program
 cargo build
+
+# Run the program in watch mode
+cargo install cargo-watch # Install cargo-watch
+cargo watch -x run # Run "cargo run" in watch mode
 ```
 
 ### Linting, testing, formatting
