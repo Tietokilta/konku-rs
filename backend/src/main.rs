@@ -95,7 +95,12 @@ async fn handler(multipart: Multipart) -> Result<String, (StatusCode, String)> {
         }
     }
 
-    procountor::authenticate().await;
+    procountor::test().await.map_err(|e| {
+        (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            format!("Procountor error {}", e.to_string()),
+        )
+    })?;
 
     Ok(String::from("Success"))
 }
