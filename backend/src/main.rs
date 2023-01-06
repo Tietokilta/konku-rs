@@ -1,5 +1,6 @@
-mod env;
+mod env_config;
 mod multipart_utils;
+mod procountor;
 
 use axum::{
     extract::{DefaultBodyLimit, Multipart},
@@ -93,6 +94,8 @@ async fn handler(multipart: Multipart) -> Result<String, (StatusCode, String)> {
             ))?,
         }
     }
+
+    procountor::authenticate().await;
 
     Ok(String::from("Success"))
 }
