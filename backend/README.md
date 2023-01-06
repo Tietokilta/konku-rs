@@ -5,6 +5,17 @@
 - Rust toolchain (see https://www.rust-lang.org/learn/get-started)
   - If using VSCode, `rust-analyzer` is recommended
 
+## Environment variables
+
+For local development, save environment variables to `.env` file. They will automatically be loaded from there.
+
+| Variable                 | Required? | Description                                                                                                |
+| ------------------------ | --------- | ---------------------------------------------------------------------------------------------------------- |
+| PROCOUNTOR_API_KEY       | Yes       | Created in Procountor UI, see [this](https://dev.procountor.com/m2m-authentication/) for more information. |
+| PROCOUNTOR_CLIENT_ID     | Yes       | API-client credential, requested from Procountor                                                           |
+| PROCOUNTOR_CLIENT_SECRET | Yes       | API-client credential, requested from Procountor                                                           |
+| PROCOUNTOR_API_URL       | No        | E.g. `https://api-test.procountor.com/api` (default value) **Note!** No `/` in the end.                    |
+
 ## Development
 
 ```bash
