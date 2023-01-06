@@ -72,7 +72,7 @@ async fn handler(multipart: Multipart) -> Result<String, (StatusCode, String)> {
             "data" => {
                 // data should contain the JSON body, let's parse it and throw error forward if
                 // data is incorrectly formatted.
-                json_body = serde_json::from_slice(field.data.as_slice()).map_err(|err| {
+                json_body = serde_json::from_slice(&field.data).map_err(|err| {
                     (
                         StatusCode::BAD_REQUEST,
                         format!(

@@ -1,3 +1,4 @@
+use axum::body::Bytes;
 use axum::extract::multipart::MultipartError;
 use axum::extract::Multipart;
 
@@ -5,7 +6,7 @@ use axum::extract::Multipart;
 pub struct MultipartResponseField {
     pub name: String,
     pub content_type: String,
-    pub data: Vec<u8>,
+    pub data: Bytes,
 }
 
 pub async fn consume_multipart_body(
@@ -24,7 +25,7 @@ pub async fn consume_multipart_body(
             .map(|s| s.to_owned())
             .unwrap_or_else(|| String::from("application/octet-stream"));
 
-        let data = field.bytes().await.map(|bytes| bytes.to_vec())?;
+        let data = field.bytes().await?;
 
         result.push(MultipartResponseField {
             name: field_name,
