@@ -290,6 +290,7 @@ struct InvoiceRow {
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 struct PostInvoiceRequestBody {
+    partner_id: i32,
     #[serde(rename = "type")]
     invoice_type: InvoiceType,
     status: InvoiceStatus,
@@ -300,6 +301,7 @@ struct PostInvoiceRequestBody {
     invoice_rows: Vec<InvoiceRow>,
     discount_percent: i32,
     invoice_channel: InvoiceChannel,
+    additional_information: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -315,6 +317,10 @@ pub async fn test() -> Result<String, Error> {
     let client = reqwest::Client::new();
 
     let body = PostInvoiceRequestBody {
+        // Partner ID is required for expense claims as they are tied to persons
+        // in Procountor person register. We are using a dummy person for this
+        // purpose.
+        partner_id: 1594396, // TODO: move this to env variable as it changes based on environment
         invoice_type: InvoiceType::BILL_OF_CHARGES,
         status: InvoiceStatus::UNFINISHED,
         date: NaiveDate::from_ymd_opt(2022, 12, 24).unwrap(),
@@ -359,6 +365,11 @@ pub async fn test() -> Result<String, Error> {
         ],
         discount_percent: 0,
         invoice_channel: InvoiceChannel::NO_SENDING,
+        additional_information: String::from(
+            "Puhelinnumero: 040123456789\n \
+            Sähköposti: testi.testinen@gmail.com\n \
+            Laskun selite: Tässä tällaiset pari testijuttua ostettu, maksakaa kiitos.",
+        ),
     };
 
     // let body_as_json = serde_json::to_string(&body).unwrap();
