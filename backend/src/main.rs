@@ -7,6 +7,7 @@ use axum::{
     routing::post,
     Router,
 };
+use chrono::NaiveDate;
 use dotenvy::dotenv;
 use hyper::StatusCode;
 use serde::Deserialize;
@@ -57,7 +58,7 @@ async fn main() {
 
 #[derive(Deserialize, Debug)]
 struct RequestBody {
-    hello: String,
+    date: NaiveDate,
 }
 
 async fn handler(multipart: Multipart) -> Result<String, (StatusCode, String)> {
@@ -82,7 +83,7 @@ async fn handler(multipart: Multipart) -> Result<String, (StatusCode, String)> {
                     )
                 })?;
 
-                tracing::info!("Got hello content \"{}\"", json_body.hello)
+                tracing::info!("Got content \"{}\"", json_body.date)
             }
             "attachments" => {
                 tracing::info!("Attachment content-type {}", field.content_type)
