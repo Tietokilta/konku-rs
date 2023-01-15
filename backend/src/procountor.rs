@@ -285,12 +285,12 @@ struct InvoiceRow {
     unit_price: f32,
     discount_percent: i32,
     vat_percent: i32,
+    vat_status: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 struct PostInvoiceRequestBody {
-    partner_id: i32,
     #[serde(rename = "type")]
     invoice_type: InvoiceType,
     status: InvoiceStatus,
@@ -302,6 +302,7 @@ struct PostInvoiceRequestBody {
     discount_percent: i32,
     invoice_channel: InvoiceChannel,
     additional_information: String,
+    vat_status: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -317,11 +318,8 @@ pub async fn test() -> Result<String, Error> {
     let client = reqwest::Client::new();
 
     let body = PostInvoiceRequestBody {
-        // Partner ID is required for expense claims as they are tied to persons
-        // in Procountor person register. We are using a dummy person for this
-        // purpose.
-        partner_id: 1594396, // TODO: move this to env variable as it changes based on environment
-        invoice_type: InvoiceType::BILL_OF_CHARGES,
+        vat_status: 12,
+        invoice_type: InvoiceType::PURCHASE_INVOICE,
         status: InvoiceStatus::UNFINISHED,
         date: NaiveDate::from_ymd_opt(2022, 12, 24).unwrap(),
         counter_party: CounterParty {
@@ -352,7 +350,8 @@ pub async fn test() -> Result<String, Error> {
                 unit: ProductUnit::PIECE,
                 unit_price: 26.49,
                 discount_percent: 0,
-                vat_percent: 24,
+                vat_percent: 0,
+                vat_status: 12,
             },
             InvoiceRow {
                 product: String::from("Testituote 2"),
@@ -360,7 +359,8 @@ pub async fn test() -> Result<String, Error> {
                 unit: ProductUnit::PIECE,
                 unit_price: 15.0,
                 discount_percent: 0,
-                vat_percent: 24,
+                vat_percent: 0,
+                vat_status: 12,
             },
         ],
         discount_percent: 0,
