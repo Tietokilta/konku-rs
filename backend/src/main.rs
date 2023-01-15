@@ -18,6 +18,7 @@ use tracing_subscriber::{
     layer::SubscriberExt,
     util::SubscriberInitExt,
 };
+use validator::Validate;
 
 #[tokio::main]
 async fn main() {
@@ -56,9 +57,16 @@ async fn main() {
         .unwrap();
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Validate, Debug)]
+#[serde(rename_all = "camelCase")]
 struct RequestBody {
-    date: NaiveDate,
+    #[validate(length(min = 1, max = 300))]
+    first_name: String,
+    #[validate(length(min = 1, max = 300))]
+    last_name: String,
+    #[validate(length(min = 1, max = 300))]
+    street_address: String,
+    invoice_date: NaiveDate,
 }
 
 async fn handler(multipart: Multipart) -> Result<String, (StatusCode, String)> {
@@ -83,7 +91,11 @@ async fn handler(multipart: Multipart) -> Result<String, (StatusCode, String)> {
                     )
                 })?;
 
-                tracing::info!("Got content \"{}\"", json_body.date)
+                json_body
+                    .validate()
+                    .map_err(|err| (StatusCode::BAD_REQUEST, err.to_string()))?
+
+                // tracing::info!("Got content \"{}\"", json_body.date)
             }
             "attachments" => {
                 tracing::info!("Attachment content-type {}", field.content_type)
