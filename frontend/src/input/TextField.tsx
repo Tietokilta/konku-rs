@@ -1,11 +1,11 @@
 import classNames from "classnames"
-import { useId } from "react"
+import { forwardRef, useId } from "react"
 
 interface Props extends React.HTMLProps<HTMLInputElement> {
   label?: string
 }
 
-export const TextField: React.FC<Props> = (props) => {
+export const TextField = forwardRef<HTMLInputElement, Props>((props, ref) => {
   const { label, type, className, ...otherInputElementProps } = props
 
   const id = useId()
@@ -18,6 +18,7 @@ export const TextField: React.FC<Props> = (props) => {
         </label>
       )}
       <input
+        ref={ref}
         id={id}
         type={type ?? "text"}
         className={classNames(
@@ -29,4 +30,4 @@ export const TextField: React.FC<Props> = (props) => {
       />
     </div>
   )
-}
+})

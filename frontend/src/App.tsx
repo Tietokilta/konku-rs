@@ -1,3 +1,4 @@
+import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 
 import { Button } from "./input/Button"
@@ -8,6 +9,13 @@ import { LanguageSelector } from "./LanguageSelector"
 const App = () => {
   const { t } = useTranslation()
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+  const onSubmit = (data: unknown) => console.log(data)
+
   return (
     <div className="m-4">
       <header className="flex flex-wrap justify-between mb-4 gap-2 items-center">
@@ -17,42 +25,74 @@ const App = () => {
         <LanguageSelector />
       </header>
       {/* <InvoicePreview /> */}
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset className="border border-tikgray p-4">
           <legend className="font-mono font-bold text-lg">
             {t("basicInformation")}
           </legend>
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="col-span-2">
-              <TextField label={t("firstName")} name="fname" />
+              <TextField
+                {...register("fname", { required: true })}
+                label={t("firstName")}
+              />
             </div>
             <div className="col-span-2">
-              <TextField label={t("lastName")} name="lname" />
+              <TextField
+                {...register("lname", { required: true })}
+                label={t("lastName")}
+              />
             </div>
             <div className="col-span-2">
-              <TextField label={t("streetAddress")} name="address" />
+              <TextField
+                {...register("address", { required: true })}
+                label={t("streetAddress")}
+              />
             </div>
             <div className="col-span-2 sm:col-span-1">
-              <TextField label={t("zipCode")} name="zip" />
+              <TextField
+                {...register("zip", { required: true })}
+                label={t("zipCode")}
+                type="number"
+              />
             </div>
             <div className="col-span-2 sm:col-span-1">
-              <TextField label={t("city")} name="city" />
+              <TextField
+                {...register("city", { required: true })}
+                label={t("city")}
+              />
             </div>
             <div className="col-span-2">
-              <TextField type="tel" label={t("phoneNumber")} name="phone" />
+              <TextField
+                {...register("phone", { required: true })}
+                type="tel"
+                label={t("phoneNumber")}
+              />
             </div>
             <div className="col-span-2">
-              <TextField type="email" label={t("email")} name="email" />
+              <TextField
+                {...register("email", { required: true })}
+                type="email"
+                label={t("email")}
+              />
             </div>
             <div className="col-span-2 md:col-span-4">
-              <TextField type="text" label={t("bankAccount")} name="iban" />
+              <TextField
+                {...register("iban", { required: true })}
+                type="text"
+                label={t("bankAccount")}
+              />
             </div>
             <div className="col-span-2 md:col-span-4">
-              <Checkbox label={t("rememberBasicInformation")} />
+              <Checkbox
+                {...register("remember")}
+                label={t("rememberBasicInformation")}
+              />
             </div>
           </div>
         </fieldset>
-        <Button>{t("submit")}</Button>
+        <Button type="submit">{t("submit")}</Button>
       </form>
     </div>
   )
