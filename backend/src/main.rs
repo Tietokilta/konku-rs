@@ -10,7 +10,8 @@ use axum::{
 use chrono::NaiveDate;
 use dotenvy::dotenv;
 use hyper::StatusCode;
-use serde::Deserialize;
+use iban::Iban;
+use serde::{Deserialize, Serialize};
 use std::net::SocketAddr;
 use tower_http::{limit::RequestBodyLimitLayer, trace::TraceLayer};
 use tracing_subscriber::{
@@ -57,7 +58,18 @@ async fn main() {
         .unwrap();
 }
 
-#[derive(Deserialize, Validate, Debug)]
+#[derive(Debug, Validate, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct RequestInvoiceRow {
+    #[validate(range(min = 1))]
+    quantity: i32,
+    #[validate(range(min = 0))]
+    unit_price: f64,
+    #[validate(length(min = 1, max = 300))]
+    description: String,
+}
+
+#[derive(Debug, Validate, Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct RequestBody {
     #[validate(length(min = 1, max = 300))]
@@ -66,7 +78,24 @@ struct RequestBody {
     last_name: String,
     #[validate(length(min = 1, max = 300))]
     street_address: String,
+    #[validate(length(min = 1, max = 10))]
+    zip: String,
+    #[validate(length(min = 1, max = 300))]
+    city: String,
+    #[validate(length(min = 1, max = 40))]
+    phone_number: String,
+    #[validate(length(min = 1, max = 600))]
+    email: String,
+    bank_account_number: Iban,
     invoice_date: NaiveDate,
+    #[validate(length(min = 1, max = 300))]
+    topic: String,
+    #[validate(length(min = 1, max = 5000))]
+    description: String,
+    #[validate(length(min = 1, max = 1000))]
+    other: String,
+    #[validate(length(min = 1))]
+    invoice_rows: Vec<RequestInvoiceRow>,
 }
 
 async fn handler(multipart: Multipart) -> Result<String, (StatusCode, String)> {
