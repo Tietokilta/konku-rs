@@ -282,7 +282,7 @@ struct InvoiceRow {
     product: String,
     quantity: i32,
     unit: ProductUnit,
-    unit_price: f32,
+    unit_price: f64,
     discount_percent: i32,
     vat_percent: i32,
     vat_status: i32,
