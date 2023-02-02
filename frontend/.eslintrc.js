@@ -19,9 +19,17 @@ module.exports = {
     "react/react-in-jsx-scope": "off",
     // We don't need these with TS
     "react/prop-types": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/require-default-props": "off",
 
     "import/prefer-default-export": "off",
-    "react/function-component-definition": "off",
+    "react/function-component-definition": [
+      "error",
+      {
+        namedComponents: ["function-declaration", "arrow-function"],
+        unnamedComponents: "arrow-function",
+      },
+    ],
 
     "import/order": [
       "error",
