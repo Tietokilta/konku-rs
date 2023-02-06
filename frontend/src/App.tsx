@@ -1,3 +1,4 @@
+import { isValid as isValidIBAN } from "iban"
 import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 
@@ -15,6 +16,15 @@ const App = () => {
     formState: { errors },
   } = useForm()
   const onSubmit = (data: unknown) => console.log(data)
+
+  const validateIBAN = (IBAN: string) => {
+    if (isValidIBAN(IBAN)) {
+      return true
+    }
+    return "please enter a valid IBAN"
+  }
+
+  const requiredFieldMessage = "this field is required"
 
   return (
     <div className="m-4">
@@ -34,52 +44,82 @@ const App = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="col-span-2">
               <TextField
-                {...register("fname", { required: true })}
+                {...register("fname", {
+                  required: { value: true, message: requiredFieldMessage },
+                  min: 1,
+                  max: 300,
+                })}
                 label={t("firstName")}
               />
             </div>
             <div className="col-span-2">
               <TextField
-                {...register("lname", { required: true })}
+                {...register("lname", {
+                  required: { value: true, message: requiredFieldMessage },
+                  min: 1,
+                  max: 300,
+                })}
                 label={t("lastName")}
               />
             </div>
             <div className="col-span-2">
               <TextField
-                {...register("address", { required: true })}
+                {...register("address", {
+                  required: { value: true, message: requiredFieldMessage },
+                  min: 1,
+                  max: 300,
+                })}
                 label={t("streetAddress")}
               />
             </div>
             <div className="col-span-2 sm:col-span-1">
               <TextField
-                {...register("zip", { required: true })}
+                {...register("zip", {
+                  required: { value: true, message: requiredFieldMessage },
+                  min: 1,
+                  max: 10,
+                })}
                 label={t("zipCode")}
-                type="number"
               />
             </div>
             <div className="col-span-2 sm:col-span-1">
               <TextField
-                {...register("city", { required: true })}
+                {...register("city", {
+                  required: { value: true, message: requiredFieldMessage },
+                  min: 1,
+                  max: 300,
+                })}
                 label={t("city")}
               />
             </div>
             <div className="col-span-2">
               <TextField
-                {...register("phone", { required: true })}
+                {...register("phone", {
+                  required: { value: true, message: requiredFieldMessage },
+                  min: 1,
+                  max: 40,
+                })}
                 type="tel"
                 label={t("phoneNumber")}
               />
             </div>
             <div className="col-span-2">
               <TextField
-                {...register("email", { required: true })}
+                {...register("email", {
+                  required: { value: true, message: requiredFieldMessage },
+                  min: 1,
+                  max: 600,
+                })}
                 type="email"
                 label={t("email")}
               />
             </div>
             <div className="col-span-2 md:col-span-4">
               <TextField
-                {...register("iban", { required: true })}
+                {...register("iban", {
+                  required: { value: true, message: requiredFieldMessage },
+                  validate: { validateIBAN },
+                })}
                 type="text"
                 label={t("bankAccount")}
               />
