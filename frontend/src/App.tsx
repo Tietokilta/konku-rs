@@ -1,5 +1,5 @@
 import { isValid as isValidIBAN } from "iban"
-import { useForm } from "react-hook-form"
+import { FieldValues, useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 
 import { Button } from "./input/Button"
@@ -15,7 +15,14 @@ const App = () => {
     handleSubmit,
     formState: { errors },
   } = useForm()
-  const onSubmit = (data: unknown) => console.log(data)
+
+  const onSubmit = (data: FieldValues) => {
+    const payload = {
+      ...data,
+      date: new Date().toISOString(),
+    }
+    console.log(payload)
+  }
 
   const validateIBAN = (IBAN: string) => {
     if (isValidIBAN(IBAN)) {
@@ -46,8 +53,8 @@ const App = () => {
               <TextField
                 {...register("fname", {
                   required: { value: true, message: requiredFieldMessage },
-                  min: 1,
-                  max: 300,
+                  minLength: 1,
+                  maxLength: 300,
                 })}
                 label={t("firstName")}
               />
@@ -56,8 +63,8 @@ const App = () => {
               <TextField
                 {...register("lname", {
                   required: { value: true, message: requiredFieldMessage },
-                  min: 1,
-                  max: 300,
+                  minLength: 1,
+                  maxLength: 300,
                 })}
                 label={t("lastName")}
               />
@@ -66,8 +73,8 @@ const App = () => {
               <TextField
                 {...register("address", {
                   required: { value: true, message: requiredFieldMessage },
-                  min: 1,
-                  max: 300,
+                  minLength: 1,
+                  maxLength: 300,
                 })}
                 label={t("streetAddress")}
               />
@@ -76,8 +83,8 @@ const App = () => {
               <TextField
                 {...register("zip", {
                   required: { value: true, message: requiredFieldMessage },
-                  min: 1,
-                  max: 10,
+                  minLength: 1,
+                  maxLength: 10,
                 })}
                 label={t("zipCode")}
               />
@@ -86,8 +93,8 @@ const App = () => {
               <TextField
                 {...register("city", {
                   required: { value: true, message: requiredFieldMessage },
-                  min: 1,
-                  max: 300,
+                  minLength: 1,
+                  maxLength: 300,
                 })}
                 label={t("city")}
               />
@@ -96,8 +103,8 @@ const App = () => {
               <TextField
                 {...register("phone", {
                   required: { value: true, message: requiredFieldMessage },
-                  min: 1,
-                  max: 40,
+                  minLength: 1,
+                  maxLength: 40,
                 })}
                 type="tel"
                 label={t("phoneNumber")}
@@ -107,8 +114,8 @@ const App = () => {
               <TextField
                 {...register("email", {
                   required: { value: true, message: requiredFieldMessage },
-                  min: 1,
-                  max: 600,
+                  minLength: 1,
+                  maxLength: 600,
                 })}
                 type="email"
                 label={t("email")}
