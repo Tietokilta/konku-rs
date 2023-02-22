@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next"
 
 import { Button } from "./input/Button"
 import { Checkbox } from "./input/Checkbox"
-import { TextField } from "./input/TextField"
+import { TextField, TextArea } from "./input/TextField"
 import { LanguageSelector } from "./LanguageSelector"
 
 const App = () => {
@@ -135,6 +135,47 @@ const App = () => {
               <Checkbox
                 {...register("remember")}
                 label={t("rememberBasicInformation")}
+              />
+            </div>
+          </div>
+        </fieldset>
+        <br />
+        <fieldset className="border border-tikgray p-4">
+          <legend className="font-mono font-bold text-lg">
+            {t("details")}
+          </legend>
+          <div className="grid grid-cols-2 gap-2">
+            <div className="col-span-2">
+              <TextField
+                {...register("topic", {
+                  required: { value: true, message: requiredFieldMessage },
+                  minLength: 1,
+                  maxLength: 300,
+                })}
+                type="text"
+                label={t("topic")}
+              />
+            </div>
+            <div className="col-span-2 row-span-4">
+              <TextArea
+                {...register("description", {
+                  required: { value: true, message: requiredFieldMessage },
+                  minLength: 1,
+                  maxLength: 5000,
+                })}
+                type="text"
+                label={t("description")}
+              />
+            </div>
+            <div className="col-span-2 row-span-4">
+              <TextArea
+                {...register("other", {
+                  required: { value: true, message: requiredFieldMessage },
+                  minLength: 1,
+                  maxLength: 1000,
+                })}
+                type="text"
+                label={t("other")}
               />
             </div>
           </div>

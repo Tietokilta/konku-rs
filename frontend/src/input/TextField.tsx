@@ -1,33 +1,73 @@
 import classNames from "classnames"
 import { forwardRef, useId } from "react"
 
-interface Props extends React.HTMLProps<HTMLInputElement> {
+interface InputProps extends React.HTMLProps<HTMLInputElement> {
   label?: string
 }
 
-export const TextField = forwardRef<HTMLInputElement, Props>((props, ref) => {
-  const { label, type, className, ...otherInputElementProps } = props
+interface FieldProps extends React.HTMLProps<HTMLTextAreaElement> {
+  label?: string
+}
 
-  const id = useId()
+export const TextField = forwardRef<HTMLInputElement, InputProps>(
+  (props, ref) => {
+    const { label, type, className, ...otherInputElementProps } = props
 
-  return (
-    <div>
-      {label && (
-        <label className="block font-mono mb-1" htmlFor={id}>
-          {label}
-        </label>
-      )}
-      <input
-        ref={ref}
-        id={id}
-        type={type ?? "text"}
-        className={classNames(
-          className,
-          "border rounded border-tikblack px-2 py-1 w-full"
+    const id = useId()
+
+    return (
+      <div>
+        {label && (
+          <label className="block font-mono mb-1" htmlFor={id}>
+            {label}
+          </label>
         )}
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        {...otherInputElementProps}
-      />
-    </div>
-  )
-})
+        <div>
+          <input
+            ref={ref}
+            id={id}
+            type={type ?? "text"}
+            className={classNames(
+              className,
+              "border rounded border-tikblack px-2 py-1 w-full"
+            )}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...otherInputElementProps}
+          />
+        </div>
+      </div>
+    )
+  }
+)
+
+export const TextArea = forwardRef<HTMLTextAreaElement, FieldProps>(
+  (props, ref) => {
+    const { label, type, className, ...otherInputElementProps } = props
+
+    const id = useId()
+
+    return (
+      <div>
+        {label && (
+          <label className="block font-mono mb-1" htmlFor={id}>
+            {label}
+          </label>
+        )}
+        <div>
+          <textarea
+            ref={ref}
+            id={id}
+            rows={4}
+            style={{ resize: "none" }}
+            className={classNames(
+              className,
+              "border rounded border-tikblack px-2 py-1 w-full"
+            )}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...otherInputElementProps}
+          />
+        </div>
+      </div>
+    )
+  }
+)

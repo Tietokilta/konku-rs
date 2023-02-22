@@ -7,6 +7,7 @@ export const resources: Resource = {
   en: {
     translation: {
       basicInformation: "Basic information",
+      details: "Details",
       firstName: "First name",
       lastName: "Last name",
       streetAddress: "Street address",
@@ -16,12 +17,16 @@ export const resources: Resource = {
       email: "Email",
       bankAccount: "Bank account (IBAN)",
       rememberBasicInformation: "Remember basic information",
+      topic: "Topic",
+      description: "Description",
+      other: "Other details",
       submit: "Submit",
     },
   },
   fi: {
     translation: {
       basicInformation: "Perustiedot",
+      details: "Tiedot",
       firstName: "Etunimi",
       lastName: "Sukunimi",
       streetAddress: "Katuosoite",
@@ -31,6 +36,9 @@ export const resources: Resource = {
       email: "Sähköposti",
       bankAccount: "Tilinumero (IBAN)",
       rememberBasicInformation: "Muista perustiedot",
+      topic: "Aihe",
+      description: "Kuvaus",
+      other: "Lisätiedot",
       submit: "Lähetä",
     },
   },
