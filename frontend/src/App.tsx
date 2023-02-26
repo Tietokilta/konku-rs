@@ -1,4 +1,5 @@
 import { isValid as isValidIBAN } from "iban"
+import moment, { Moment } from "moment"
 import { FieldValues, useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 
@@ -17,10 +18,8 @@ const App = () => {
   } = useForm()
 
   const onSubmit = (data: FieldValues) => {
-    const payload = {
-      ...data,
-      date: new Date().toISOString(),
-    }
+    const payload = { ...data }
+    payload.date = moment(payload.date, "DD.MM.YYYY").toISOString()
     console.log(payload)
   }
 
@@ -29,6 +28,13 @@ const App = () => {
       return true
     }
     return t("invalidIbanMessage")
+  }
+
+  const validateDate = (date: string) => {
+    if (moment(date, "DD.MM.YY").isValid()) {
+      return true
+    }
+    return t("invalidDateMessage")
   }
 
   return (
@@ -126,7 +132,7 @@ const App = () => {
                 error={errors.email}
               />
             </div>
-            <div className="col-span-2 md:col-span-4">
+            <div className="col-span-2">
               <TextField
                 {...register("iban", {
                   required: { value: true, message: t("requiredFieldMessage") },
@@ -135,6 +141,18 @@ const App = () => {
                 type="text"
                 label={t("bankAccount")}
                 error={errors.iban}
+              />
+            </div>
+            <div className="col-span-2">
+              <TextField
+                {...register("date", {
+                  required: { value: true, message: t("requiredFieldMessage") },
+                  validate: { validateDate },
+                })}
+                type="text"
+                label={t("date")}
+                defaultValue={moment().format("DD.MM.YYYY")}
+                error={errors.date}
               />
             </div>
             <div className="col-span-2 md:col-span-4">

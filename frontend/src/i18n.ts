@@ -16,6 +16,7 @@ export const resources: Resource = {
       phoneNumber: "Phone number",
       email: "Email",
       bankAccount: "Bank account (IBAN)",
+      date: "Date (DD.MM.YYYY)",
       rememberBasicInformation: "Remember basic information",
       topic: "Topic",
       description: "Description",
@@ -24,6 +25,7 @@ export const resources: Resource = {
       requiredFieldMessage: "This field is required",
       invalidIbanMessage: "Please enter a valid IBAN",
       maxLengthMessage: "Maximum length for this field exceeded",
+      invalidDateMessage: "Invalid date",
     },
   },
   fi: {
@@ -38,6 +40,7 @@ export const resources: Resource = {
       phoneNumber: "Puhelinnumero",
       email: "Sähköposti",
       bankAccount: "Tilinumero (IBAN)",
+      date: "Päivämäärä",
       rememberBasicInformation: "Muista perustiedot",
       topic: "Aihe",
       description: "Kuvaus",
@@ -46,6 +49,7 @@ export const resources: Resource = {
       requiredFieldMessage: "Tämä kohta vaaditaan",
       invalidIbanMessage: "Väärä IBAN-osoite",
       maxLengthMessage: "Maksimipituus ylitetty",
+      invalidDateMessage: "Epäkelpo päivämäärä",
     },
   },
 } as const
