@@ -21,6 +21,9 @@ export const resources: Resource = {
       description: "Description",
       other: "Other details",
       submit: "Submit",
+      requiredFieldMessage: "This field is required",
+      invalidIbanMessage: "Please enter a valid IBAN",
+      maxLengthMessage: "Maximum length for this field exceeded",
     },
   },
   fi: {
@@ -40,6 +43,9 @@ export const resources: Resource = {
       description: "Kuvaus",
       other: "Lisätiedot",
       submit: "Lähetä",
+      requiredFieldMessage: "Tämä kohta vaaditaan",
+      invalidIbanMessage: "Väärä IBAN-osoite",
+      maxLengthMessage: "Maksimipituus ylitetty",
     },
   },
 } as const

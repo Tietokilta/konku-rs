@@ -1,17 +1,32 @@
 import classNames from "classnames"
 import { forwardRef, useId } from "react"
+import { FieldError } from "react-hook-form"
 
 interface InputProps extends React.HTMLProps<HTMLInputElement> {
   label?: string
+  error?:
+    | FieldError
+    | Partial<{
+        type: string | number
+        message: string
+      }>
 }
 
 interface FieldProps extends React.HTMLProps<HTMLTextAreaElement> {
   label?: string
+  error?:
+    | FieldError
+    | Partial<{
+        type: string | number
+        message: string
+      }>
 }
+
+const errorMessageStyle = { color: "red", fontSize: ".8em" }
 
 export const TextField = forwardRef<HTMLInputElement, InputProps>(
   (props, ref) => {
-    const { label, type, className, ...otherInputElementProps } = props
+    const { label, type, className, error, ...otherInputElementProps } = props
 
     const id = useId()
 
@@ -35,6 +50,7 @@ export const TextField = forwardRef<HTMLInputElement, InputProps>(
             {...otherInputElementProps}
           />
         </div>
+        <div style={errorMessageStyle}>{error?.message?.toString()}</div>
       </div>
     )
   }
@@ -42,7 +58,7 @@ export const TextField = forwardRef<HTMLInputElement, InputProps>(
 
 export const TextArea = forwardRef<HTMLTextAreaElement, FieldProps>(
   (props, ref) => {
-    const { label, type, className, ...otherInputElementProps } = props
+    const { label, type, className, error, ...otherInputElementProps } = props
 
     const id = useId()
 
@@ -67,6 +83,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, FieldProps>(
             {...otherInputElementProps}
           />
         </div>
+        <div style={errorMessageStyle}>{error?.message?.toString()}</div>
       </div>
     )
   }

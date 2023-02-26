@@ -28,10 +28,8 @@ const App = () => {
     if (isValidIBAN(IBAN)) {
       return true
     }
-    return "please enter a valid IBAN"
+    return t("invalidIbanMessage")
   }
-
-  const requiredFieldMessage = "this field is required"
 
   return (
     <div className="m-4">
@@ -52,83 +50,91 @@ const App = () => {
             <div className="col-span-2">
               <TextField
                 {...register("fname", {
-                  required: { value: true, message: requiredFieldMessage },
+                  required: { value: true, message: t("requiredFieldMessage") },
                   minLength: 1,
                   maxLength: 300,
                 })}
                 label={t("firstName")}
+                error={errors.fname}
               />
             </div>
             <div className="col-span-2">
               <TextField
                 {...register("lname", {
-                  required: { value: true, message: requiredFieldMessage },
+                  required: { value: true, message: t("requiredFieldMessage") },
                   minLength: 1,
                   maxLength: 300,
                 })}
                 label={t("lastName")}
+                error={errors.lname}
               />
             </div>
             <div className="col-span-2">
               <TextField
                 {...register("address", {
-                  required: { value: true, message: requiredFieldMessage },
+                  required: { value: true, message: t("requiredFieldMessage") },
                   minLength: 1,
                   maxLength: 300,
                 })}
                 label={t("streetAddress")}
+                error={errors.address}
               />
             </div>
             <div className="col-span-2 sm:col-span-1">
               <TextField
                 {...register("zip", {
-                  required: { value: true, message: requiredFieldMessage },
+                  required: { value: true, message: t("requiredFieldMessage") },
                   minLength: 1,
-                  maxLength: 10,
+                  maxLength: { value: 10, message: t("maxLengthMessage") },
                 })}
                 label={t("zipCode")}
+                error={errors.zip}
               />
             </div>
             <div className="col-span-2 sm:col-span-1">
               <TextField
                 {...register("city", {
-                  required: { value: true, message: requiredFieldMessage },
+                  required: { value: true, message: t("requiredFieldMessage") },
                   minLength: 1,
                   maxLength: 300,
                 })}
                 label={t("city")}
+                error={errors.city}
               />
             </div>
             <div className="col-span-2">
               <TextField
                 {...register("phone", {
-                  required: { value: true, message: requiredFieldMessage },
+                  required: { value: true, message: t("requiredFieldMessage") },
                   minLength: 1,
                   maxLength: 40,
                 })}
                 type="tel"
                 label={t("phoneNumber")}
+                error={errors.phone}
               />
             </div>
             <div className="col-span-2">
               <TextField
                 {...register("email", {
-                  required: { value: true, message: requiredFieldMessage },
+                  required: { value: true, message: t("requiredFieldMessage") },
                   minLength: 1,
                   maxLength: 600,
                 })}
                 type="email"
                 label={t("email")}
+                error={errors.email}
               />
             </div>
             <div className="col-span-2 md:col-span-4">
               <TextField
                 {...register("iban", {
-                  required: { value: true, message: requiredFieldMessage },
+                  required: { value: true, message: t("requiredFieldMessage") },
                   validate: { validateIBAN },
                 })}
                 type="text"
                 label={t("bankAccount")}
+                error={errors.iban}
               />
             </div>
             <div className="col-span-2 md:col-span-4">
@@ -148,34 +154,37 @@ const App = () => {
             <div className="col-span-2">
               <TextField
                 {...register("topic", {
-                  required: { value: true, message: requiredFieldMessage },
+                  required: { value: true, message: t("requiredFieldMessage") },
                   minLength: 1,
                   maxLength: 300,
                 })}
                 type="text"
                 label={t("topic")}
+                error={errors.topic}
               />
             </div>
             <div className="col-span-2 row-span-4">
               <TextArea
                 {...register("description", {
-                  required: { value: true, message: requiredFieldMessage },
+                  required: { value: true, message: t("requiredFieldMessage") },
                   minLength: 1,
                   maxLength: 5000,
                 })}
                 type="text"
                 label={t("description")}
+                error={errors.description}
               />
             </div>
             <div className="col-span-2 row-span-4">
               <TextArea
                 {...register("other", {
-                  required: { value: true, message: requiredFieldMessage },
+                  required: false,
                   minLength: 1,
                   maxLength: 1000,
                 })}
                 type="text"
                 label={t("other")}
+                error={errors.other}
               />
             </div>
           </div>
