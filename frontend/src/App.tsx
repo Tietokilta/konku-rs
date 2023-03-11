@@ -1,5 +1,6 @@
 import { isValid as isValidIBAN } from "iban"
-import moment, { Moment } from "moment"
+import moment from "moment"
+import React from "react"
 import { FieldValues, useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 
@@ -8,14 +9,19 @@ import { Checkbox } from "./input/Checkbox"
 import { TextField, TextArea } from "./input/TextField"
 import { LanguageSelector } from "./LanguageSelector"
 
+const DevFillButton = React.lazy(() => import("./input/DevFillButton"))
+
 const App = () => {
   const { t } = useTranslation()
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
-  } = useForm()
+  } = useForm({
+    mode: "onBlur",
+  })
 
   const onSubmit = (data: FieldValues) => {
     const payload = { ...data }
@@ -207,7 +213,10 @@ const App = () => {
             </div>
           </div>
         </fieldset>
-        <Button type="submit">{t("submit")}</Button>
+        <div className="mt-4">
+          <Button type="submit">{t("submit")}</Button>
+          {import.meta.env.DEV && <DevFillButton setValue={setValue} />}
+        </div>
       </form>
     </div>
   )

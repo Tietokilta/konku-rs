@@ -1,16 +1,20 @@
 import { useTranslation } from "react-i18next"
 
 export const LanguageSelector: React.FC = () => {
-  const { i18n } = useTranslation()
+  const { i18n, t } = useTranslation()
 
   return (
-    <select
-      value={i18n.resolvedLanguage}
-      onChange={(e) => i18n.changeLanguage(e.target.value)}
-      className="border-0 text-l py-1 pl-1 pr-10"
+    <button
+      type="button"
+      onClick={() =>
+        i18n.changeLanguage(i18n.resolvedLanguage === "fi" ? "en" : "fi")
+      }
+      className="border-0 text-l py-1 pl-1 pr-10 w-40"
     >
-      <option value="fi">🇫🇮 Suomi</option>
-      <option value="en">🇺🇸 English</option>
-    </select>
+      <div className="content-center m-auto">
+        <img className="w-6 float-left" src="/translate.svg" alt="translate" />
+        {t("selectedLanguage")}
+      </div>
+    </button>
   )
 }

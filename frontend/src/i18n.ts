@@ -26,6 +26,7 @@ export const resources: Resource = {
       invalidIbanMessage: "Please enter a valid IBAN",
       maxLengthMessage: "Maximum length for this field exceeded",
       invalidDateMessage: "Invalid date",
+      selectedLanguage: "In English",
     },
   },
   fi: {
@@ -50,6 +51,7 @@ export const resources: Resource = {
       invalidIbanMessage: "Väärä IBAN-osoite",
       maxLengthMessage: "Maksimipituus ylitetty",
       invalidDateMessage: "Epäkelpo päivämäärä",
+      selectedLanguage: "Suomeksi",
     },
   },
 } as const
