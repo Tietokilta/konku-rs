@@ -27,6 +27,7 @@ export const resources: Resource = {
       maxLengthMessage: "Maximum length for this field exceeded",
       invalidDateMessage: "Invalid date",
       selectedLanguage: "In English",
+      formSubmitted: "Form submitted",
     },
   },
   fi: {
@@ -52,6 +53,7 @@ export const resources: Resource = {
       maxLengthMessage: "Maksimipituus ylitetty",
       invalidDateMessage: "Epäkelpo päivämäärä",
       selectedLanguage: "Suomeksi",
+      formSubmitted: "Lasku lähetetty",
     },
   },
 } as const
